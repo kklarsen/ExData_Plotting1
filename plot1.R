@@ -64,7 +64,7 @@ setwd("../")
 resultsDir <- "./results"
 if (file.exists(resultsDir) == FALSE) dir.create(resultsDir)
 
-dataFile <- file.path(DataDir, "household_power_consumption.txt")
+dataFile <- file.path(DataDir, DataSet)
 
 # check whether the dataframe, read from the dataFile, exists.
 # if it exist it does not re-read it.

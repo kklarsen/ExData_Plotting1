@@ -19,7 +19,7 @@ save_png <- function(n,d) {
 
 myPlot <- function(df,xa, ya, a = TRUE, cc = "black", ymn, ymx, tit = "" , xlabel = "", ylabel = "") {
           
-          par(ps = 12, cex = 1, cex.main = 1)
+          par(ps = 11, cex = 1, cex.main = 1)
           
           g <- with(df, plot(xa, ya,
                              axes = a,
@@ -83,7 +83,7 @@ setwd("../")
 resultsDir <- "./results"
 if (file.exists(resultsDir) == FALSE) dir.create(resultsDir)
 
-dataFile <- file.path(DataDir, "household_power_consumption.txt")
+dataFile <- file.path(DataDir, DataSet)
 
 # check whether the dataframe, read from the dataFile, exists.
 # if it exist it does not re-read it.
@@ -117,7 +117,7 @@ if (l == FALSE) { dataPEC <- read.table(dataFile, header = TRUE, sep = ";",na.st
 
 # creation of plot2.png
 
-tit = "Global active power versus Day & Time"
+tit = "Global active power vs Day-Time"
 xl = "Day-Time"
 yl = "Global active power in kilo-Watts"
 

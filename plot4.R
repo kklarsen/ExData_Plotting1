@@ -19,7 +19,7 @@ save_png <- function(n,d) {
 
 myPlot <- function(df,xa, ya, a = TRUE, cc = "black", ymn, ymx, tit = "" , xlabel = "", ylabel = "") {
           
-          par(ps = 12, cex = 1, cex.main = 1)
+          par(ps = 11, cex = 1, cex.main = 1)
           
           g <- with(df, plot(xa, ya,
                              axes = a,
@@ -83,7 +83,7 @@ setwd("../")
 resultsDir <- "./results"
 if (file.exists(resultsDir) == FALSE) dir.create(resultsDir)
 
-dataFile <- file.path(DataDir, "household_power_consumption.txt")
+dataFile <- file.path(DataDir, DataSet)
 
 # check whether the dataframe, read from the dataFile, exists.
 # if it exist it does not re-read it.
@@ -119,7 +119,7 @@ if (l == FALSE) { dataPEC <- read.table(dataFile, header = TRUE, sep = ";",na.st
 
 par(mfrow = c(2,2))
 
-tit = "Global Active Power versus Day & Time"
+tit = "Global Active Power vs Day-Time"
 xl = "Day-Time"
 yl = "Global active power in kilo-Watts"
 
@@ -127,7 +127,7 @@ ymax <- 2*round(max(dataPECsub$Global_active_power)/2, digits = 0)
 
 myPlot(dataPECsub,dataPECsub$Date,dataPECsub$Global_active_power,TRUE,"black", 0,ymax, tit, xl, yl )
 
-tit = "Voltage versus Day & Time"
+tit = "Voltage vs Day-Time"
 xl = "Day-Time"
 yl = "Global active power in kilo-Watts"
 
@@ -142,7 +142,7 @@ ymax3 <- max(dataPECsub$Sub_metering_3)
 
 ymax <- 10*round(max(ymax1,ymax2,ymax3)/10, digits = 0)
 
-tit = "Energy sub-metering versus Day & Time"
+tit = "Energy sub-metering vs Day-Time"
 xl = "Day-Time"
 yl = "Energy sub-metering in Watts-hour"
 
@@ -159,12 +159,12 @@ myPlot(dataPECsub,dataPECsub$Date,dataPECsub$Sub_metering_3,FALSE,"blue", 0, yma
 par(new = FALSE)
 par (cex = 0.64)
 
-legend("topright",c("Energy sub-meter 1","Energy sub-meter 2","Energy sub-meter 3"), 
+legend("top",c("Energy sub-meter 1","Energy sub-meter 2","Energy sub-meter 3"), 
        lty =1,
        col = c("black","red","blue"),
        bty = "n")
 
-tit = "Global Reactive Power versus Day & Time"
+tit = "Global Reactive Power vs Day-Time"
 xl = "Day-Time"
 yl = "Global reactive power in kilo-Watts"
 
