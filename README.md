@@ -63,7 +63,7 @@ On high-level my code does the following;
 5. After transforming the Date column to the right format, the code extract a subset of the larger dataframe; `dataPECsub` corresponding to 48 hours between "2007-02-01" and "2007-02-01".
 6. Final data frame transformation of the date column (` dataPECsub$Date`) is to pase the Date and Time column and then apply `strptime()` function ensuring conformity to R format.
 
-All the above stepes 1- 7 are common for all the plot 1-4 codes. Once you have run either of the plot codes, the following will execute faster and not repeat the time-consuming steps of downloading and reading the UCIMLR dataset.
+All the above steps 1- 7 are common for all the plot 1-4 codes. Once you have run either of the plot codes, the following will execute faster and not repeat the time-consuming steps of downloading and reading the UCIMLR dataset.
 
 After the above points the data frame `dataPECsub` is ready for analysis. In this case plotting various data from the dataset.
 
