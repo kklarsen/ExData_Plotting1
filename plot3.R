@@ -2,24 +2,32 @@
 # Author: Kim K Larsen
 # Project 1 - Creating Plot 3
 
-# save_png is a function that writes the resulting Plot to filename n in director d.
+# LIBRARY USED
+
+### Including the `png` library that enables me to display the saved png file on R device window
+### The code checks whether the packages has already been installed, if so it will continue to load the library
+
+if("png" %in% rownames(installed.packages()) == FALSE) {install.packages("png")}
+library(png)
+
+# FUNCTIONS
 
 save_png <- function(n,d) {
           
-          setwd(d)
+### save_png is a function that writes the resulting Plot to filename n in director d.
+
+        setwd(d)
           
-          dev.copy(png,n)
-          dev.off()
+          png(n)
           
           setwd("../")
 }
 
-
-# function creating of plot2-4.png
-
 myPlot <- function(df,xa, ya, a = TRUE, cc = "black", ymn, ymx, tit = "" , xlabel = "", ylabel = "") {
           
-          par(ps = 11, cex = 1, cex.main = 1)
+### function creating of plot2-4.png
+
+        par(ps = 11, cex = 1, cex.main = 1)
           
           g <- with(df, plot(xa, ya,
                              axes = a,
@@ -33,14 +41,16 @@ myPlot <- function(df,xa, ya, a = TRUE, cc = "black", ymn, ymx, tit = "" , xlabe
 }
 
 
-#CREATE DATASET DIRECTORY
-## Creates directory and extract from the zip file the orinal data which should
-## is then stored here.
+# MAIN PART OF CODE
+
+## CREATE DATASET DIRECTORY
+### Creates directory and extract from the zip file the orinal data which should
+### is then stored here.
 
 DataDir <- "./dataset" #this is the directory where original data is to be found
 DataSet <- "household_power_consumption.txt"
 
-## Unless the DataDir already exists, create DataDir and unzip the datafile into it.
+### Unless the DataDir already exists, create DataDir and unzip the datafile into it.
 
 if (file.exists(DataDir) == FALSE) {
           
@@ -59,7 +69,7 @@ if (file.exists(DataDir) == FALSE) {
 }
 
 
-## Check that the dataset is indeed included in the DataDir, if not unzip and add to DataDir.
+### Check that the dataset is indeed included in the DataDir, if not unzip and add to DataDir.
 
 setwd(DataDir)
 
@@ -77,16 +87,16 @@ if (file.exists(DataSet) == FALSE) {
 
 setwd("../")
 
-#RESULTS DIRECTORY
-##Create a directory "results" where resulting files can be stored 
+## RESULTS DIRECTORY
+### Create a directory "results" where resulting files can be stored 
 
 resultsDir <- "./results"
 if (file.exists(resultsDir) == FALSE) dir.create(resultsDir)
 
 dataFile <- file.path(DataDir, DataSet)
 
-# check whether the dataframe, read from the dataFile, exists.
-# if it exist it does not re-read it.
+### check whether the dataframe, read from the dataFile, exists.
+### if it exist it does not re-read it.
 
 l <- ifelse(any(ls() %in% "dataPEC"), is.data.frame(get("dataPEC")),FALSE)
 
@@ -115,7 +125,9 @@ if (l == FALSE) { dataPEC <- read.table(dataFile, header = TRUE, sep = ";",na.st
                   
 }
 
-# Creation of plot3.png
+## Plot3: Creation of plot3.png
+
+save_png("plot3.png",resultsDir)  
 
 ymax1 <- max(dataPECsub$Sub_metering_1)
 ymax2 <- max(dataPECsub$Sub_metering_2)
@@ -145,4 +157,9 @@ legend("topright",c("Energy sub-metering 1","Energy sub-metering 2","Energy sub-
 
 par(new = FALSE)
 
-save_png("plot3.png",resultsDir)  
+dev.off()
+
+### Displaying the png file on R device window
+
+img <- readPNG("./results/plot3.png")
+grid::grid.raster(img)

@@ -2,22 +2,32 @@
 # Author: Dr. Kim K Larsen
 # Project 1
 
-# save_png is a function that writes the resulting Plot to filename n in director d.
+# LIBRARY USED
+
+### Including the `png` library that enables me to display the saved png file on R device window
+### The code checks whether the packages has already been installed, if so it will continue to load the library
+
+if("png" %in% rownames(installed.packages()) == FALSE) {install.packages("png")}
+library(png)
+
+# FUNCTIONS
 
 save_png <- function(n,d) {
           
-          setwd(d)
+### save_png is a function that writes the resulting Plot to filename n in director d.
+### initially used `dev.copy(png, filename)`but it poorly represents the plots, i.e., not wysiwyg!
+        
+        setwd(d)
           
-          dev.copy(png,n)
-          dev.off()
-
+          png(n)
+          
           setwd("../")
 }
 
 
-# function creating of plot2-4.png
-
 myPlot <- function(df,xa, ya, a = TRUE, cc = "black", ymn, ymx, tit = "" , xlabel = "", ylabel = "") {
+
+### function creating of plot2-4.png
 
 par(ps = 11, cex = 1, cex.main = 1)
           
@@ -33,14 +43,17 @@ g <- with(df, plot(xa, ya,
 }
 
 
-#CREATE DATASET DIRECTORY
-## Creates directory and extract from the zip file the orinal data which should
-## is then stored here.
+# MAIN PART OF CODE
+
+## CREATE DATASET DIRECTORY
+
+### Creates directory and extract from the zip file the orinal data which should
+### is then stored here.
 
 DataDir <- "./dataset" #this is the directory where original data is to be found
 DataSet <- "household_power_consumption.txt"
 
-## Unless the DataDir already exists, create DataDir and unzip the datafile into it.
+### Unless the DataDir already exists, create DataDir and unzip the datafile into it.
 
 if (file.exists(DataDir) == FALSE) {
           
@@ -59,7 +72,7 @@ if (file.exists(DataDir) == FALSE) {
 }
 
 
-## Check that the dataset is indeed included in the DataDir, if not unzip and add to DataDir.
+### Check that the dataset is indeed included in the DataDir, if not unzip and add to DataDir.
 
 setwd(DataDir)
 
@@ -77,16 +90,16 @@ if (file.exists(DataSet) == FALSE) {
 
 setwd("../")
 
-#RESULTS DIRECTORY
-##Create a directory "results" where resulting files can be stored 
+## RESULTS DIRECTORY
+### Create a directory "results" where resulting files can be stored 
 
 resultsDir <- "./results"
 if (file.exists(resultsDir) == FALSE) dir.create(resultsDir)
 
 dataFile <- file.path(DataDir, DataSet)
 
-# check whether the dataframe, read from the dataFile, exists.
-# if it exist it does not re-read it.
+### check whether the dataframe, read from the dataFile, exists.
+### if it exist it does not re-read it.
 
 l <- ifelse(any(ls() %in% "dataPEC"), is.data.frame(get("dataPEC")),FALSE)
 
@@ -103,7 +116,8 @@ if (l == FALSE) { dataPEC <- read.table(dataFile, header = TRUE, sep = ";",na.st
 
           dataPEC$Date <- as.Date(dataPEC$Date,"%d/%m/%Y")
   
-          #defining the range of interest and limiting the dataset to that
+          ### defining the range of interest and limiting the dataset to that
+          
           dmin <- "2007-02-01"
           dmax <- "2007-02-02"
 
@@ -116,15 +130,25 @@ if (l == FALSE) { dataPEC <- read.table(dataFile, header = TRUE, sep = ";",na.st
 }
 
 
-# creation of plot1.png
+## PLOT 1: creation of plot1.png
+
+save_png("plot1.png", resultsDir)
 
 g <- hist(dataPECsub$Global_active_power, col = "red", 
           main = " Histogram of Global Active Power", 
           xlab = "Global active power in kilo-Watts")
 
-save_png("plot1.png",resultsDir)
+dev.off()
 
-# creation of plot2.png
+### Displaying the png file on R device window
+
+img <- readPNG("./results/plot1.png")
+grid::grid.raster(img)
+
+
+## PLOT 2: creation of plot2.png
+
+save_png("plot2.png", resultsDir)
 
 tit = "Global active power vs Day-Time"
 xl = "Day-Time"
@@ -132,11 +156,20 @@ yl = "Global active power in kilo-Watts"
 
 ymax <- 2*round(max(dataPECsub$Global_active_power)/2, digits = 0)
 
-myPlot(dataPECsub,dataPECsub$Date,dataPECsub$Global_active_power,TRUE,"black", 0, ymax, tit, xl, yl )
+g <- myPlot(dataPECsub,dataPECsub$Date,dataPECsub$Global_active_power,TRUE,"black", 0, ymax, tit, xl, yl )
 
-save_png("plot2.png",resultsDir)
+dev.off()
 
-# Creation of plot3.png
+### Displaying the png file on R device window
+
+grid::grid.newpage(recording = TRUE)
+
+img <- readPNG("./results/plot2.png")
+grid::grid.raster(img)
+
+## Plot 3: Creation of plot3.png
+
+save_png("plot3.png",resultsDir)  
 
 ymax1 <- max(dataPECsub$Sub_metering_1)
 ymax2 <- max(dataPECsub$Sub_metering_2)
@@ -166,10 +199,18 @@ legend("topright",c("Energy sub-metering 1","Energy sub-metering 2","Energy sub-
 
 par(new = FALSE)
 
-save_png("plot3.png",resultsDir)  
+dev.off()
 
+### Displaying the png file on R device window
 
-# creation of plot4.png
+grid::grid.newpage(recording = TRUE)
+
+img <- readPNG("./results/plot3.png")
+grid::grid.raster(img)
+
+## Plot 4: creation of plot4.png
+
+save_png("plot4.png",resultsDir)
 
 par(mfrow = c(2,2))
 
@@ -226,5 +267,11 @@ ymax <- 2*round(max(dataPECsub$Global_reactive_power)/2, digits = 2)
 
 myPlot(dataPECsub,dataPECsub$Date,dataPECsub$Global_reactive_power,TRUE,"black", 0, ymax, tit, xl, yl )
 
-save_png("plot4.png",resultsDir)
+dev.off()
 
+### Displaying the png file on R device window
+
+grid::grid.newpage(recording = TRUE)
+
+img <- readPNG("./results/plot4.png")
+grid::grid.raster(img)
