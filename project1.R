@@ -158,10 +158,10 @@ par(new = TRUE)
 
 myPlot(dataPECsub,dataPECsub$Date,dataPECsub$Sub_metering_3,FALSE,"blue", 0, ymax, "","", "") 
 
-legend("top",c("Energy sub-meter 1","Energy sub-meter 2","Energy sub-meter 3"), 
+legend("topright",c("Energy sub-metering 1","Energy sub-metering 2","Energy sub-metering 3"), 
        lty =1,
        col = c("black","red","blue"),
-       bty = "n",
+       bty = "y",
        cex = 0.80)
 
 par(new = FALSE)
@@ -213,10 +213,10 @@ myPlot(dataPECsub,dataPECsub$Date,dataPECsub$Sub_metering_3,FALSE,"blue", 0, yma
 par(new = FALSE)
 par (cex = 0.64)
 
-legend("top",c("Energy sub-meter 1","Energy sub-meter 2","Energy sub-meter 3"), 
+legend("topright",c("Energy sub-metering 1","Energy sub-metering 2","Energy sub-metering 3"), 
        lty =1,
        col = c("black","red","blue"),
-       bty = "n")
+       bty = "y")
 
 tit = "Global Reactive Power vs Day-Time"
 xl = "Day-Time"
